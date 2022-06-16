@@ -1,0 +1,187 @@
+﻿<!doctype html>
+<html>
+  	<head>
+        <meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+      	<title>Bootstrap Intro</title>
+        <link type="text/css" rel="stylesheet" href="/public/css/bootstrap.css">
+        <link type="text/css" rel="stylesheet" href="/public/css/mystyle.css">
+    </head>
+   	<body>
+	
+	<div class="navbar navbar-inverse">
+        <div class="container">
+        <!--- Start Header --->
+			<div class="row">
+				<div class="col-sd-12 col-md-12 col-lg-12">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mynavbar-content">
+							<span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="">Express News</a>
+					</div>
+					<div class="collapse navbar-collapse" id="mynavbar-content">
+						<ul class="nav navbar-nav">
+							<li><a href="/express/news">News</a></li>
+                            <li><a href="/express/about">About</a></li>
+							<li><a href="/express/contact">Contact</a></li>
+							<li><a href="/express/gallery">Gallery</a></li>
+						</ul>
+
+					</div>
+				</div>
+			</div>
+		<!---  End Header --->
+        </div>
+	</div>
+	<div id="content">
+		<div class="container">
+			<div class="row">
+			<!--- Start Content --->
+				<div class="col-md-3"> 
+				<!--- Star Content Left --->
+					<div class="panel panel-primary">
+					<div class="panel-heading">Login</div>
+					<div class ="panel-body">
+						<!--- Start Login Form --->
+						<form class="form">
+						<div class="form-group">
+							<label for="email">Email Address:</label>
+							<input type="email" class="form-control" id="useremail" placeholder="Please Enter Email">
+						</div>
+						<div class="form-group">
+							<label for="password">Password:</label>
+							<input type="password" class="form-control" id="userpassword" placeholder="Please Enter Password">
+						</div>
+						<div class="form-group">
+						If you don't have account, please register <a href="#">here</a>
+						</div>
+
+						<input type="submit" class="btn btn-primary" value="Login" id="loginsubmit" name="loginsubmit">
+						</form>
+						<!--- End Login Form --->
+					</div>
+					</div>
+				<!--- End Content Left --->
+				</div>
+				<div class="col-md-9"> 
+					<!--- Star Content Right --->
+					<div class="row carousel-holder">
+						<div class="col-md-12">
+						<!--- Start Carousel --->
+
+						<%
+							if(data.length){
+								for(var i=0; i < data.length; i++){
+						%>
+						<div class="newsitemd">
+							<h2 class="news_title"><%= data[i].title %></h2>
+							<p class="crt_date">Create date : <%= data[i].createdate %></p>
+							<div class="clear"></div>
+							<p class="news_desc">
+							<img src="/public/news_images/<%= data[i].images%>" align="left">
+							<%= data[i].description%>
+						</p>
+						</div>
+
+						<%
+								}
+							}
+						%>
+						
+		   <!------------- Form Comment ---------------------------------------------->
+						 <form class="comment_form" action="process/adding_comment.php" method="post">				<h4>Leave A Comment</h4>
+							<input type="hidden" name="id_news" value="#"><br>
+							<input type="email" placeholder="Email" name="email" required><br>
+							<input type="text" placeholder="Username" name="username" required><br>
+							<textarea name="comment" placeholder="Your Comment" required></textarea><br>
+							<input type="submit" value="Comment">
+						 </form>
+		   <!-------------------------------------------------------------------------->
+		   
+		   <!------------- List Comment ----------------------------------------------->             
+						 <div class="comment_wrap">
+							 <h1>Comments (4)</h1>
+						   
+							 <div class="comment_list">
+								<div class="user_photo">
+								 <img src="/public/photo_member/profile-5.png" />
+								</div>
+								<div class="box_desc">
+								  <h2>Gladis</h2>
+								  <p> Mauris tincidunt, nulla quis rhoncus malesuada, nibh ante pulvinar dolor, ut lacinia libero risus nec orci.tiam auctor tincidunt augue at pharetra. Morbi velit eros, sagittis in facilisis non, rhoncus </p>
+								  <span>2014-03-28 11:41:11</span>
+								</div>
+			
+							</div>
+							
+							<div class="comment_list">
+								<div class="user_photo">
+								 <img src="/public/photo_member/profile-2.jpg" />
+								</div>
+								<div class="box_desc">
+								  <h2>Supriadi</h2>
+								  <p> Mauris tincidunt, nulla quis rhoncus malesuada, nibh ante pulvinar dolor, ut lacinia libero risus nec orci.tiam auctor tincidunt augue at pharetra. Morbi velit eros, sagittis in facilisis non, rhoncus </p>
+								  <span>2014-03-28 11:41:11</span>
+								</div>
+			
+							</div>
+							
+							<div class="comment_list">
+								<div class="user_photo">
+								 <img src="/public/photo_member/profile-1.jpg" />
+								</div>
+								<div class="box_desc">
+								  <h2>Kodir</h2>
+								  <p> Mauris tincidunt, nulla quis rhoncus malesuada, nibh ante pulvinar dolor, ut lacinia libero risus nec orci.tiam auctor tincidunt augue at pharetra. Morbi velit eros, sagittis in facilisis non, rhoncus </p>
+								  <span>2014-03-28 11:41:11</span>
+								</div>
+			
+							</div>
+							
+							<div class="comment_list">
+								<div class="user_photo">
+								 <img src="/public/photo_member/profile-3.jpg" />
+								</div>
+								<div class="box_desc">
+								  <h2>Parno</h2>
+								  <p> Mauris tincidunt, nulla quis rhoncus malesuada, nibh ante pulvinar dolor, ut lacinia libero risus nec orci.tiam auctor tincidunt augue at pharetra. Morbi velit eros, sagittis in facilisis non, rhoncus </p>
+								  <span>2014-03-28 11:41:11</span>
+								</div>
+			
+							</div>
+						 
+						 </div>
+						<!--- End Carousel --->
+						</div>
+					</div>
+					<div class="row">
+						<!--- Start Content Right Bottom --->
+												
+						<!--- End Content Right Bottom --->
+					</div>
+					<!--- End Content Right --->    
+				</div>
+			<!---  End Content --->
+			</div>
+		</div>
+    </div>
+	<div id="footer">
+        <div class="container">
+    		<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="copyright">
+					<center>
+					<p>Copyrights &copy; 2018 Babastudio.com</p>
+					</center>
+				</div>
+			</div>
+        </div>
+    </div>
+
+	<script type="text/javascript" language="javascript" src="/public/js/jquery.js"></script>
+   	<script type="text/javascript" language="javascript" src="/public/js/bootstrap.min.js"></script>
+	
+	</body>
+</html>
