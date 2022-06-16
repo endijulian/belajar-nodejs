@@ -6,6 +6,8 @@ var adminku     = require('./routes/route-adminku');
 var myconn      = require('express-myconnection');
 var mysql       = require('mysql');
 var path        = require('path');
+var bodyParser  = require('body-parser');
+var session     = require('express-session');
 
 
 
@@ -16,6 +18,7 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 // app.use('/public',express.static(__dirname + '/public')); 
 app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.urlencoded({extended:false}));
 app.use(
     myconn(mysql, {
         host: '127.0.0.1',
@@ -24,6 +27,14 @@ app.use(
         port : 3306,
         database : 'express-db'
     }, 'single')
+);
+app.use(
+    session({
+        secret: 'babastudio',
+        resave: false,
+        saveUninitialized: true,
+        cookie: {maxAge: 120000}
+    })
 );
 
 
@@ -41,10 +52,12 @@ app.get('/express/news', expressku.news);
 app.get('/express/news_detail/:id_news', expressku.news_detail);
 
 //admin
-app.get('/express/admin', adminku.login);
+app.get('/express/admin', adminku.home);
 app.get('/express/admin/login', adminku.login);
+app.post('/express/admin/login', adminku.login);
 app.get('/express/admin/home', adminku.home);
-
+app.get('/express/admin/add_news', adminku.add_news);
+app.get('/express/admin/edit_news', adminku.edit_news);
 
 
 app.listen(app.get('port'), function(){

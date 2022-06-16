@@ -300,8 +300,12 @@ desired effect
         -------------------------->
 
         <% if (pathname == 'home') { %>
-          <%- include show_news %>
-       <% } %>
+          <%- include('show_news'); %>
+       <% } else if(pathname == 'add_news') { %>
+          <%- include('add_news'); %>
+       <% }else if(pathname == 'edit_news') { %>
+          <%- include('edit_news'); %>
+        <% } %>
         
     </section>
     <!-- /.content -->
