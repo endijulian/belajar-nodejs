@@ -60,6 +60,16 @@ exports.home = function(req, res){
 };
 
 exports.add_news = function(req, res){
+
+    var admin = req.session.admin;
+    var adminId = req.session.adminId;
+    console.log('id_admin='+ adminId);
+
+    if(adminId == null){
+        res.redirect('/express/admin/login');
+        return;
+    }
+
     res.render('./admin/home',{
         pathname : 'add_news',
     });
@@ -112,6 +122,15 @@ exports.process_add_news = function(req, res){
 }
 
 exports.edit_news = function(req, res){
+
+    var admin = req.session.admin;
+    var adminId = req.session.adminId;
+    console.log('id_admin='+ adminId);
+
+    if(adminId == null){
+        res.redirect('/express/admin/login');
+        return;
+    }
 
     //mengambil id dari table newws
     var id_news = req.params.id_news
@@ -198,3 +217,9 @@ exports.delete_news = function(req, res){
         });
     });
 }
+
+exports.logout = function(req, res){{
+    req.session.destroy(function(err){
+        res.redirect('/express/admin/login');
+    });
+}}

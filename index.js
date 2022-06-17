@@ -63,6 +63,7 @@ app.post('/express/admin/add_news', adminku.process_add_news);
 app.get('/express/admin/edit_news/:id_news', adminku.edit_news);
 app.post('/express/admin/edit_news/:id_news', adminku.update_edit_news);
 app.get('/express/admin/delete_news/:id_news', adminku.delete_news);
+app.get('/express/admin/logout', adminku.logout);
 
 
 app.listen(app.get('port'), function(){
