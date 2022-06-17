@@ -59,7 +59,7 @@
                     <td><%= data[i].description.substring(0, 150) %><a href="#">read more</a></td>
                     <td>
                       <a class="btn btn-warning" href="/express/admin/edit_news/<%= data[i].id_news %>"><i class="glyphicon glyphicon-edit"></i></a>                      
-                      <a class="btn btn-danger" href="#"><i class="glyphicon glyphicon-trash"></i></a>
+                      <a class="btn btn-danger" href="/express/admin/delete_news/<%= data[i].id_news %>" onclick="return confirm('Apakah anda yakin?')"><i class="glyphicon glyphicon-trash"></i></a>
                     </td>
                   </tr> 
 

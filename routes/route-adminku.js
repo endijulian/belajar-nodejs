@@ -182,3 +182,19 @@ exports.update_edit_news = function(req, res){
         });
     });
 }
+
+exports.delete_news = function(req, res){
+    var id_news = req.params.id_news;
+
+    req.getConnection(function(err, connect){
+        var sql = "DELETE FROM news_tbl WHERE id_news=?";
+
+        var query = connect.query(sql, id_news, function(err, results){
+            if(err){
+                console.log("Error delete news: ", err);
+            }
+
+            res.redirect('/express/admin/home');
+        });
+    });
+}
