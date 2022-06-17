@@ -1,3 +1,5 @@
+var multer = require('multer');
+
 exports.login = function(req, res){
     var sess = req.session;
     var message = '';
@@ -63,8 +65,120 @@ exports.add_news = function(req, res){
     });
 };
 
-exports.edit_news = function(req, res){
-    res.render('./admin/home',{
-        pathname : 'edit_news',
+exports.process_add_news = function(req, res){
+    var storage = multer.diskStorage({
+        destination: './public/news_images',
+        filename: function(req, file, callback){
+            callback(null, file.originalname);
+        }
     });
+
+    var upload = multer({
+        storage:storage,
+    }).single('image');
+
+    var date = new Date(Date.now());
+
+    upload(req, res, function(err){
+        if(err){
+            return res.send('Error uploading image!');
+        }
+
+        console.log(req.file);
+        console.log(req.body);
+
+        req.getConnection(function(err, connect){
+            var post = {
+                title: req.body.title,
+                description: req.body.description,
+                images: req.file.filename,
+                createdate: date,
+            }
+
+            console.log(post);
+
+            var sql = "INSERT INTO news_tbl SET ?";
+            var query = connect.query(sql, post, function(err, results){
+                console.log(query);
+                if(err){
+                    console.log('Error input news: %s', err);
+                }
+
+                req.flash('info', 'Created has been success');
+                res.redirect('/express/admin/home');
+            });
+        });
+    });
+}
+
+exports.edit_news = function(req, res){
+
+    //mengambil id dari table newws
+    var id_news = req.params.id_news
+
+    req.getConnection(function(err, connect){
+        var sql = "SELECT * FROM news_tbl WHERE id_news=?";
+
+        var query = connect.query(sql, id_news, function(err, results){
+            if(err){
+                console.log('error show news: %s', err);
+            }
+
+            res.render('./admin/home',{
+                id_news: id_news,
+                pathname : 'edit_news',
+                data: results
+            });
+        });
+    });
+
 };
+
+exports.update_edit_news = function(req, res){
+    var id_news = req.params.id_news;
+
+    var storage = multer.diskStorage({
+        destination: './public/news_images',
+        filename: function(req, file, callback){
+            callback(null, file.originalname);
+        }
+    });
+
+    var upload = multer({storage:storage, }).single('image');
+    var date = new Date(Date.now());
+
+    upload(req, res, function(err){
+        if(err){
+            var image = req.body.image_old;
+            console.log("Error uploading image");
+        }else if(req.file == undefined){
+            var image = req.body.image_old;
+        }else{
+            var image = req.file.filename;
+        }
+
+        console.log(req.file);
+        console.log(req.body);
+
+
+        req.getConnection(function(err, connect){
+            var post = {
+                title: req.body.title,
+                description: req.body.title,
+                images: image,
+                createdate: date,
+            }
+            
+            var sql = "UPDATE news_tbl SET ? WHERE id_news=?";
+
+            var query = connect.query(sql, [post, id_news], function(err, results){
+                if(err){
+                    console.log('Error edit news :', err)
+                }
+
+                req.flash('info', 'Succes edit data');
+                res.redirect('/express/admin/home');
+            });
+        });
+    });
+}
